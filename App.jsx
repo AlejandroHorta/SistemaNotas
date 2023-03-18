@@ -12,31 +12,29 @@ export default function App() {
   //Definir las variables de estado del componente
   const [valor1, setValor1] = useState("");
   const [valor2, setValor2] = useState("");
+  const [valor3, setValor3] = useState("");
+  const [valor4, setValor4] = useState("");
+  const [valor5, setValor5] = useState("");
+  const [valor6, setValor6] = useState("");
   const [resultado, setResultado] = useState(0);
+  const [observacion, setObservacion] = useState("");
   const [esValido, setEsvalido] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
   // Definir los métodos del componente
-  let calcular = (operador) => {
-    if (valor1 != "" && valor2 != "") {
+  let calcular = () => {
+    if (valor1 != "" && valor2 != "" && valor6 != "") {
       setEsvalido(true);
-      setMensaje("Calculo realizado con Éxito");
-      let resulta = 0;
- switch (operador) {
-        case "+":
-          resulta = parseFloat(valor1) + parseFloat(valor2);
-          break;
-        case "-":
-          resulta = parseFloat(valor1) - parseFloat(valor2);
-          break;
-        case "/":
-          resulta = parseFloat(valor1) / parseFloat(valor2);
-          break;
-        case "*":
-          resulta = parseFloat(valor1) * parseFloat(valor2);
-          break;
+      let resulta = parseFloat(valor1 * 0.30 + valor2 * 0.35 + valor6 * 0.35);
+      if (resulta >= 3.0) {
+        setMensaje("APROBADO");
+      } if (resulta <= 2.94) {
+        setMensaje("HABILITA");
+      } if (resulta < 2.0) {
+        setMensaje("REPRUEBA");
       }
       setResultado(resulta);
+
     } else {
       setEsvalido(false);
       setMensaje("Calculo no realizado");
@@ -58,7 +56,7 @@ export default function App() {
           },
         ]}
       >
-        <Banner name="react2"></Banner>
+        <Banner name="Noticas"></Banner>
       </View>
       <View
         style={[
@@ -73,18 +71,41 @@ export default function App() {
           },
         ]}
       >
-        <Text>Calculadora Básica</Text>
         <TextInput
-          placeholder="Ingese valor 1"
+          placeholder="Identificacion"
+          style={styles.inputs}
+          onChangeText={(valor3) => setValor3(valor3)}
+          value={valor3}
+        ></TextInput>
+        <TextInput
+          placeholder="Nombre"
+          style={styles.inputs}
+          onChangeText={(valor4) => setValor4(valor4)}
+          value={valor4}
+        ></TextInput>
+        <TextInput
+          placeholder="Asignatura"
+          style={styles.inputs}
+          onChangeText={(valor5) => setValor5(valor5)}
+          value={valor5}
+        ></TextInput>
+        <TextInput
+          placeholder="Nota 1 (30%)"
           style={styles.inputs}
           onChangeText={(valor1) => setValor1(valor1)}
           value={valor1}
         ></TextInput>
         <TextInput
-          placeholder="Ingese valor 2"
+          placeholder="Nota 2 (35%)"
           style={styles.inputs}
           onChangeText={(valor2) => setValor2(valor2)}
           value={valor2}
+        ></TextInput>
+        <TextInput
+          placeholder="Nota 3 (35%)"
+          style={styles.inputs}
+          onChangeText={(valor6) => setValor6(valor6)}
+          value={valor6}
         ></TextInput>
         <Text>Resultado</Text>
         <Text
@@ -92,6 +113,13 @@ export default function App() {
           onChangeText={(resultado) => setResultado(resultado)}
         >
           {resultado.toFixed(2)}
+        </Text>
+        <Text>Observación</Text>
+        <Text
+          style={[styles.inputs, { color: "blue", fontWeight: "bold" }]}
+          onChangeText={(observacion) => setObservacion(observacion)}
+        >
+          {mensaje}
         </Text>
         <View style={{ flexDirection: "row", marginTop: 20 }}>
           <TouchableOpacity
@@ -103,40 +131,7 @@ export default function App() {
             ]}
             onPress={() => calcular("+")}
           >
-            <Text style={styles.textsTouchables}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              {
-                backgroundColor: "blue",
-              },
-              styles.buttons,
-            ]}
-            onPress={() => calcular("-")}
-          >
-            <Text style={styles.textsTouchables}>-</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              {
-                backgroundColor: "blue",
-              },
-              styles.buttons,
-            ]}
-            onPress={() => calcular("/")}
-          >
-            <Text style={styles.textsTouchables}>/</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              {
-                backgroundColor: "blue",
-              },
-              styles.buttons,
-            ]}
-            onPress={() => calcular("*")}
-          >
-            <Text style={styles.textsTouchables}>*</Text>
+            <Text style={styles.textsTouchables}>Calcular</Text>
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 10 }}>
@@ -150,30 +145,31 @@ export default function App() {
             onPress={() => {
               setValor1("");
               setValor2("");
+              setValor3("");
+              setValor4("");
+              setValor5("");
+              setValor6("");
               setResultado(0);
               setMensaje("");
             }}
           >
-            <Text style={styles.textsTouchables}>C</Text>
+            <Text style={styles.textsTouchables}>Limpiar</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        <Text style={{ color: esValido ? "green" : "red" }}>{mensaje}</Text>
-      </View>
-      <View
-        style={[
-          styles.container,
-          styles.views,
-          {
-            backgroundColor: "#F2F9D4",
-            width: "100%",
-            height: "100%",
-            borderColor: "black",
-          },
-        ]}
-      >
-        <Text>Derechos reservados</Text>
+        <View style={{ marginTop: 10 }}>
+          <TouchableOpacity
+            style={[
+              {
+                backgroundColor: "blue",
+              },
+              styles.buttons,
+            ]}
+            onPress={() => {
+            }}
+          >
+            <Text style={styles.textsTouchables}>Buscar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -181,7 +177,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.5,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -189,7 +185,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderColor: "black",
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 5,
   },
   inputs: {
@@ -203,8 +199,8 @@ const styles = StyleSheet.create({
   },
   buttons: {
     borderRadius: 10,
-    padding: 10,
-    width: 60,
+    padding: 5,
+    width: 80,
     opacity: 0.5,
     marginLeft: 10,
   },
